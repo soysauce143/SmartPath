@@ -5,7 +5,7 @@ const UUIDS = {
 
 let bluetoothDevice;
 let smartPathCharacteristic;
-
+//comment
 // Wrap command sending with haptic feedback
 async function handlePress(cmd) {
     if (window.navigator.vibrate) window.navigator.vibrate(50); // Vibrate on press
