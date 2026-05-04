@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPath Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>SmartPath Pro</h1>
+            <div id="status" class="status-indicator">Status: Disconnected</div>
+        </header>
+
+        <section class="pairing-section">
+            <button id="connectBtn" class="main-button">Pair Hardware</button>
+        </section>
+
+        <section class="control-grid">
+            <button class="dir-btn up" onclick="sendCmd('F')">▲</button>
+            <div class="middle-row">
+                <button class="dir-btn left" onclick="sendCmd('L')">◀</button>
+                <button class="dir-btn stop" onclick="sendCmd('S')">■</button>
+                <button class="dir-btn right" onclick="sendCmd('R')">▶</button>
+            </div>
+            <button class="dir-btn down" onclick="sendCmd('B')">▼</button>
+        </section>
+    </div>
+
+    <!-- The 'type="module"' is what makes the Bluetooth import work -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>

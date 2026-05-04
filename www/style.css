@@ -1,0 +1,88 @@
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --primary-blue: #2196f3;
+    --stop-red: #ff5252;
+    --text-color: #ffffff;
+    --status-red: #ff5252;
+    --status-green: #69f0ae;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.status-indicator {
+    color: var(--status-red);
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.main-button {
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+    transition: 0.3s;
+}
+
+.main-button:active { transform: scale(0.95); }
+
+/* Control Pad Grid */
+.control-grid {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.middle-row {
+    display: flex;
+    gap: 15px;
+}
+
+.dir-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    background: var(--card-bg);
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dir-btn.stop {
+    background-color: var(--stop-red);
+    border: none;
+}
+
+.dir-btn:active { background: #333; }
