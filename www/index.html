@@ -15,21 +15,22 @@
         </header>
 
         <section class="pairing-section">
-            <button id="connectBtn" class="main-button">Pair Hardware</button>
+            <button id="connectBtn" class="main-button" onclick="connect()">Pair Hardware</button>
         </section>
 
         <section class="control-grid">
-            <button class="dir-btn up" onclick="sendCmd('F')">▲</button>
+            <!-- ontouchstart triggers movement; ontouchend triggers Stop ('S') -->
+            <button class="dir-btn up" ontouchstart="sendCmd('F')" ontouchend="sendCmd('S')">▲</button>
             <div class="middle-row">
-                <button class="dir-btn left" onclick="sendCmd('L')">◀</button>
+                <button class="dir-btn left" ontouchstart="sendCmd('L')" ontouchend="sendCmd('S')">◀</button>
                 <button class="dir-btn stop" onclick="sendCmd('S')">■</button>
-                <button class="dir-btn right" onclick="sendCmd('R')">▶</button>
+                <button class="dir-btn right" ontouchstart="sendCmd('R')" ontouchend="sendCmd('S')">▶</button>
             </div>
-            <button class="dir-btn down" onclick="sendCmd('B')">▼</button>
+            <button class="dir-btn down" ontouchstart="sendCmd('B')" ontouchend="sendCmd('S')">▼</button>
         </section>
     </div>
 
-    <!-- The 'type="module"' is what makes the Bluetooth import work -->
+    <!-- Script must be type="module" for Capacitor -->
     <script type="module" src="app.js"></script>
 </body>
 </html>

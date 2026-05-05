@@ -1,74 +1,68 @@
-/**
- * SmartPath Pro - Final app.js
- * Optimized for JDY-16 Bluetooth Module
- */
+console.log("SMARTPATH: app.js has started loading...");
 
-// We access the plugin via the global Capacitor object to avoid "Module Specifier" errors
+// Use the global Capacitor object
 const BleClient = Capacitor.Plugins.BluetoothLe;
 
-// Standard JDY-16 UUIDs for your research project
+// JDY-16 Standard UUIDs
 const SERVICE_UUID = '0000ffe0-0000-1000-8000-00805f9b34fb';
 const CHAR_UUID = '0000ffe1-0000-1000-8000-00805f9b34fb';
 
 let connectedDeviceId = null;
 
 /**
- * 1. INITIALIZE & CONNECT
- * Attached to 'window' so your HTML button's onclick="connect()" can see it.
+ * Helper to convert string to Hex (e.g., 'F' -> '46')
+ * Prevents "Invalid Hexadecimal Character" crashes.
  */
-window.connect = async () => {
+const stringToHex = (str) => {
+    let hex = '';
+    for (let i = 0; i < str.length; i++) {
+        hex += str.charCodeAt(i).toString(16).padStart(2, '0');
+    }
+    return hex;
+};
+
+// Define the connect function
+const connect = async () => {
+    console.log("SMARTPATH: Pair Button Clicked!"); 
     const statusElement = document.getElementById('status');
     
     try {
-        // Initialize the native Bluetooth engine
         await BleClient.initialize();
-
-        // Request the JDY-16 device using the service UUID
         const device = await BleClient.requestDevice({
             services: [SERVICE_UUID],
         });
 
-        // Connect to the selected device
         await BleClient.connect({ deviceId: device.deviceId });
         connectedDeviceId = device.deviceId;
 
-        // Update UI
-        statusElement.innerText = "Status: Connected";
-        statusElement.style.color = "#69f0ae"; 
-        console.log("Connected to: " + device.deviceId);
-
+        if (statusElement) {
+            statusElement.innerText = "Status: Connected";
+            statusElement.style.color = "#69f0ae";
+        }
+        console.log("SMARTPATH: Connected to " + device.deviceId);
     } catch (error) {
-        console.error("Bluetooth Error:", error);
-        statusElement.innerText = "Status: Error";
-        statusElement.style.color = "#ff5252";
+        console.error("SMARTPATH: Connection Error", error);
     }
 };
 
-/**
- * 2. SEND COMMANDS
- * Sends 'F', 'B', 'L', 'R', or 'S' to the microcontroller.
- */
-window.sendCmd = async (command) => {
-    if (!connectedDeviceId) {
-        console.warn("No hardware connected!");
-        return;
-    }
+// Define the send command function
+const sendCmd = async (command) => {
+    if (!connectedDeviceId) return;
 
     try {
-        // Convert the string character to a base64 string (required by the plugin)
-        const encoder = new TextEncoder();
-        const arrayBuffer = encoder.encode(command);
-        const base64String = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
-
+        const hexValue = stringToHex(command);
         await BleClient.write({
             deviceId: connectedDeviceId,
             service: SERVICE_UUID,
             characteristic: CHAR_UUID,
-            value: base64String
+            value: hexValue
         });
-        
-        console.log("Sent: " + command);
+        console.log("Sent: " + command + " (Hex: " + hexValue + ")");
     } catch (error) {
-        console.error("Command failed:", error);
+        console.error("SMARTPATH: Write Error", error);
     }
 };
+
+// Attach functions to 'window' for HTML access
+window.connect = connect;
+window.sendCmd = sendCmd;
