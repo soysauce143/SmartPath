@@ -66,3 +66,5 @@ const sendCmd = async (command) => {
 // Attach functions to 'window' for HTML access
 window.connect = connect;
 window.sendCmd = sendCmd;
+
+//hahahahhahahaha
